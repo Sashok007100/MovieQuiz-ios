@@ -80,11 +80,17 @@ final class MovieQuizViewController: UIViewController {
     }
     
     @IBAction private func yesButtonClicked(_ sender: Any) {
+        let currentQuestion = question[currentQuestionIndex]
+        let givenAnswer = true
         
+        showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
     }
     
     @IBAction private func noButtonClicked(_ sender: Any) {
+        let currentQuestion = question[currentQuestionIndex]
+        let givenAnswer = false
         
+        showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
     }
     
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
@@ -99,6 +105,19 @@ final class MovieQuizViewController: UIViewController {
         imageView.image = step.image
         textLabel.text = step.question
         counterLabel.text = step.questionNumber
+    }
+    
+    private func showAnswerResult(isCorrect: Bool) {
+        imageView.layer.masksToBounds = true
+        imageView.layer.borderWidth = 1
+        
+        if isCorrect == true {
+            imageView.layer.borderColor = UIColor.ypGreen.cgColor
+        } else {
+            imageView.layer.borderColor = UIColor.ypRed.cgColor
+        }
+        
+        imageView.layer.cornerRadius = 6
     }
     
 }
