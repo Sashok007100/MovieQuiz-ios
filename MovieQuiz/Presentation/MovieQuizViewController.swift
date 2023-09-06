@@ -127,21 +127,10 @@ final class MovieQuizViewController: UIViewController {
     
     private func showNextQuestionOrResult() {
         if currentQuestionIndex == question.count - 1 {
+            let text = "Ваш результат: \(correctAnswer)/10"
+            let viewModel = QuizResultsViewModel(title: "Этот раунд окончен!", text: text, buttonText: "Сыграть ещё раз")
             
-            let alert = UIAlertController(title: "Этот раунд окончен!", message: "Ваш результат ???", preferredStyle: .alert)
-            
-            let action = UIAlertAction(title: "Сыграть ещё раз", style: .default) { _ in
-                self.currentQuestionIndex = 0
-                self.correctAnswer = 0
-                
-                let firstQuestion = self.question[self.currentQuestionIndex]
-                let viewModel = self.convert(model: firstQuestion)
-                self.show(quiz: viewModel)
-            }
-            
-            alert.addAction(action)
-            
-            self.present(alert, animated: true, completion: nil)
+            show(quiz: viewModel)
             
         } else {
             currentQuestionIndex += 1
@@ -151,6 +140,23 @@ final class MovieQuizViewController: UIViewController {
             
             show(quiz: viewModel)
         }
+    }
+    
+    private func show(quiz result: QuizResultsViewModel) {
+        let alert = UIAlertController(title: result.title, message: result.text, preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: result.buttonText, style: .default) { _ in
+            self.currentQuestionIndex = 0
+            self.correctAnswer = 0
+            
+            let firstQuestion = self.question[self.currentQuestionIndex]
+            let viewModel = self.convert(model: firstQuestion)
+            self.show(quiz: viewModel)
+        }
+        
+        alert.addAction(action)
+        
+        self.present(alert, animated: true, completion: nil)
     }
     
 }
