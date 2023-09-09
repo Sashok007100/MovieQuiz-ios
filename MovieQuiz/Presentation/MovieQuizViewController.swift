@@ -24,6 +24,9 @@ final class MovieQuizViewController: UIViewController {
     @IBOutlet weak private var textLabel: UILabel!
     @IBOutlet weak private var counterLabel: UILabel!
     
+    @IBOutlet weak var noButton: UIButton!
+    @IBOutlet weak var yesButton: UIButton!
+    
     private let question: [QuizQuestion] = [
             QuizQuestion(
                 image: "The Godfather",
@@ -120,9 +123,14 @@ final class MovieQuizViewController: UIViewController {
         
         imageView.layer.cornerRadius = 20
         
+        noButton.isEnabled = false
+        yesButton.isEnabled = false
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.showNextQuestionOrResult()
             self.imageView.layer.borderWidth = 0
+            self.noButton.isEnabled = true
+            self.yesButton.isEnabled = true
         }
     }
     
