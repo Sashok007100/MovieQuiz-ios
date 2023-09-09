@@ -1,25 +1,8 @@
 import UIKit
 
-struct QuizStepViewModel {
-    let image: UIImage
-    let question: String
-    let questionNumber: String
-}
-
-struct QuizResultsViewModel {
-    let title: String
-    let text: String
-    let buttonText: String
-}
-
-struct QuizQuestion {
-    let image: String
-    let text: String
-    let correctAnswer: Bool
-}
-
 final class MovieQuizViewController: UIViewController {
     
+    // MARK: - IB Outlets
     @IBOutlet weak private var imageView: UIImageView!
     @IBOutlet weak private var textLabel: UILabel!
     @IBOutlet weak private var counterLabel: UILabel!
@@ -27,6 +10,7 @@ final class MovieQuizViewController: UIViewController {
     @IBOutlet weak var noButton: UIButton!
     @IBOutlet weak var yesButton: UIButton!
     
+    // MARK: - Private Properties
     private let question: [QuizQuestion] = [
             QuizQuestion(
                 image: "The Godfather",
@@ -82,6 +66,7 @@ final class MovieQuizViewController: UIViewController {
         show(quiz: convertQuestion)
     }
     
+    // MARK: - IB Actions
     @IBAction private func yesButtonClicked(_ sender: Any) {
         let currentQuestion = question[currentQuestionIndex]
         let givenAnswer = true
@@ -96,6 +81,7 @@ final class MovieQuizViewController: UIViewController {
         showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
     }
     
+    // MARK: - Private Methods
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
         let questionStep = QuizStepViewModel(image: UIImage(named: model.image) ?? UIImage(),
                                              question: model.text,
@@ -167,7 +153,6 @@ final class MovieQuizViewController: UIViewController {
         
         self.present(alert, animated: true, completion: nil)
     }
-    
 }
 
 /*
