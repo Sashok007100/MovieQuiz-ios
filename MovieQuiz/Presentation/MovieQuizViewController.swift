@@ -15,7 +15,7 @@ final class MovieQuizViewController: UIViewController {
     private var correctAnswer = 0
     
     private let questionAmount: Int = 10
-    private var questionFactory: QuestionFactory = QuestionFactory()
+    private var questionFactory: QuestionFactoryProtocol = QuestionFactory()
     private var currentQuestion: QuizQuestion?
     
     // MARK: - Lifecycle

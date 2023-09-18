@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		892D9FFE2AB74D0F009690AC /* QuestionFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 892D9FFD2AB74D0F009690AC /* QuestionFactory.swift */; };
+		89530CFF2AB8E08E00510BE6 /* QuestionFactoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89530CFE2AB8E08E00510BE6 /* QuestionFactoryProtocol.swift */; };
 		898C72B22AACEBCE002BE93A /* QuizStepViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898C72B12AACEBCE002BE93A /* QuizStepViewModel.swift */; };
 		898C72B42AACEC51002BE93A /* QuizResultsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898C72B32AACEC51002BE93A /* QuizResultsViewModel.swift */; };
 		898C72B62AACEC7B002BE93A /* QuizQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898C72B52AACEC7B002BE93A /* QuizQuestion.swift */; };
@@ -26,6 +27,7 @@
 
 /* Begin PBXFileReference section */
 		892D9FFD2AB74D0F009690AC /* QuestionFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionFactory.swift; sourceTree = "<group>"; };
+		89530CFE2AB8E08E00510BE6 /* QuestionFactoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionFactoryProtocol.swift; sourceTree = "<group>"; };
 		898C72B12AACEBCE002BE93A /* QuizStepViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizStepViewModel.swift; sourceTree = "<group>"; };
 		898C72B32AACEC51002BE93A /* QuizResultsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizResultsViewModel.swift; sourceTree = "<group>"; };
 		898C72B52AACEC7B002BE93A /* QuizQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizQuestion.swift; sourceTree = "<group>"; };
@@ -59,6 +61,7 @@
 			isa = PBXGroup;
 			children = (
 				892D9FFD2AB74D0F009690AC /* QuestionFactory.swift */,
+				89530CFE2AB8E08E00510BE6 /* QuestionFactoryProtocol.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -218,6 +221,7 @@
 			files = (
 				898C72B62AACEC7B002BE93A /* QuizQuestion.swift in Sources */,
 				AD5EE5DE284D7887003966EF /* UIColor+Extensions.swift in Sources */,
+				89530CFF2AB8E08E00510BE6 /* QuestionFactoryProtocol.swift in Sources */,
 				AD7AFA552836189F00399704 /* Array+Extensions.swift in Sources */,
 				AD1ABAB62831907B00B3E448 /* MovieQuizViewController.swift in Sources */,
 				AD77F5742857F8810062FB14 /* Date+Extensions.swift in Sources */,

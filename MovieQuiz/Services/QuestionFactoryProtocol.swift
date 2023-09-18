@@ -1,8 +1,5 @@
-//
-//  QuestionFactoryProtocol.swift
-//  MovieQuiz
-//
-//  Created by Alexandr Artemov (Mac Mini) on 18.09.2023.
-//
-
 import Foundation
+
+protocol QuestionFactoryProtocol {
+    func requestNextQuestion() -> QuizQuestion?
+}
