@@ -18,12 +18,16 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     private var questionFactory: QuestionFactoryProtocol? = QuestionFactory()
     private var currentQuestion: QuizQuestion?
     
+    private var alertPresenter: AlertPresenterProtocol? = AlertPresenter()
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
         questionFactory?.delegate = self
         questionFactory?.requestNextQuestion()
+        
+        alertPresenter = AlertPresenter(delegate: self)
     }
     
     // MARK: - QuestionFactoryDelegate
@@ -101,26 +105,18 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
             show(quiz: viewModel)
         } else {
             currentQuestionIndex += 1
-            
             questionFactory?.requestNextQuestion()
         }
     }
     
     private func show(quiz result: QuizResultsViewModel) {
-        let alert = UIAlertController(title: result.title, message: result.text, preferredStyle: .alert)
-        
-        let action = UIAlertAction(title: result.buttonText, style: .default) { [weak self] _ in
+        let alertModel = AlertModel(title: result.title, message: result.text, buttonText: result.buttonText, completion: { [weak self] in
             guard let self = self else { return }
-            
-            self.currentQuestionIndex = 0
-            self.correctAnswer = 0
-            
+            currentQuestionIndex = 0
+            correctAnswer = 0
             questionFactory?.requestNextQuestion()
-        }
+        })
         
-        alert.addAction(action)
-        
-        self.present(alert, animated: true, completion: nil)
+        alertPresenter?.showAlert(alertModel: alertModel)
     }
 }
-
