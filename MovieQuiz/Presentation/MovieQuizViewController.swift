@@ -15,10 +15,11 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     private var correctAnswer = 0
     
     private let questionsAmount: Int = 10
-    private var questionFactory: QuestionFactoryProtocol? = QuestionFactory()
     private var currentQuestion: QuizQuestion?
     
+    private var questionFactory: QuestionFactoryProtocol? = QuestionFactory()
     private var alertPresenter: AlertPresenterProtocol? = AlertPresenter()
+    private var statisticService: StatisticService? = StatisticServiceImplementation()
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -99,8 +100,9 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     private func showNextQuestionOrResult() {
         if currentQuestionIndex == questionsAmount - 1 {
-            let text = "Ваш результат: \(correctAnswer)/10"
-            let viewModel = QuizResultsViewModel(title: "Этот раунд окончен!", text: text, buttonText: "Сыграть ещё раз")
+            let viewModel = QuizResultsViewModel(title: "Этот раунд окончен!", 
+                                                 text: makeResultMessage(),
+                                                 buttonText: "Сыграть ещё раз")
             
             show(quiz: viewModel)
         } else {
@@ -110,13 +112,31 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     }
     
     private func show(quiz result: QuizResultsViewModel) {
+        statisticService?.store(correct: correctAnswer, total: questionsAmount)
+        
         let alertModel = AlertModel(title: result.title, message: result.text, buttonText: result.buttonText, completion: { [weak self] in
             guard let self = self else { return }
-            currentQuestionIndex = 0
-            correctAnswer = 0
-            questionFactory?.requestNextQuestion()
+            self.currentQuestionIndex = 0
+            self.correctAnswer = 0
+            self.questionFactory?.requestNextQuestion()
         })
         
         alertPresenter?.showAlert(alertModel: alertModel)
+    }
+    
+    private func makeResultMessage() -> String {
+        guard let statisticService = statisticService, let bestGame = statisticService.bestGame else {
+            assertionFailure("error message")
+            return ""
+        }
+        
+        let totalPlaysGame = "Количество сыгранных квизов: \(statisticService.gamesCount)"
+        let currentResultGame = "Ваш результат: \(correctAnswer)\\\(questionsAmount)"
+        let bestGameRecord = "Рекорд: \(bestGame.correct)\\\(bestGame.total)" + " (\(bestGame.date.dateTimeString))"
+        let averageAccuracy = "Средняя точность: \(String(format: "%.2f", statisticService.totalAccuracy))%"
+        
+        let resultMessage = [currentResultGame, totalPlaysGame, bestGameRecord, averageAccuracy].joined(separator: "\n")
+        
+        return resultMessage
     }
 }
