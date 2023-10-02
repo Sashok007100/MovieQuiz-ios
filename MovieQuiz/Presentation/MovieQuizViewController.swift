@@ -24,7 +24,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         questionFactory?.delegate = self
         questionFactory?.requestNextQuestion()
         
@@ -59,9 +59,10 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     // MARK: - Private Methods
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
-        let questionStep = QuizStepViewModel(image: UIImage(named: model.image) ?? UIImage(),
-                                             question: model.text,
-                                             questionNumber: "\(currentQuestionIndex + 1)/\(questionsAmount)")
+        let questionStep = QuizStepViewModel(
+            image: UIImage(named: model.image) ?? UIImage(),
+            question: model.text,
+            questionNumber: "\(currentQuestionIndex + 1)/\(questionsAmount)")
         
         return questionStep
     }
@@ -100,9 +101,10 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     private func showNextQuestionOrResult() {
         if currentQuestionIndex == questionsAmount - 1 {
-            let viewModel = QuizResultsViewModel(title: "Этот раунд окончен!", 
-                                                 text: makeResultMessage(),
-                                                 buttonText: "Сыграть ещё раз")
+            let viewModel = QuizResultsViewModel(
+                title: "Этот раунд окончен!",
+                text: makeResultMessage(),
+                buttonText: "Сыграть ещё раз")
             
             show(quiz: viewModel)
         } else {
@@ -114,12 +116,17 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     private func show(quiz result: QuizResultsViewModel) {
         statisticService?.store(correct: correctAnswer, total: questionsAmount)
         
-        let alertModel = AlertModel(title: result.title, message: result.text, buttonText: result.buttonText, completion: { [weak self] in
-            guard let self = self else { return }
-            self.currentQuestionIndex = 0
-            self.correctAnswer = 0
-            self.questionFactory?.requestNextQuestion()
-        })
+        let alertModel = AlertModel(
+            title: result.title,
+            message: result.text,
+            buttonText: result.buttonText,
+            completion:
+                { [weak self] in
+                    guard let self = self else { return }
+                    self.currentQuestionIndex = 0
+                    self.correctAnswer = 0
+                    self.questionFactory?.requestNextQuestion()
+                })
         
         alertPresenter?.showAlert(alertModel: alertModel)
     }
@@ -130,12 +137,13 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
             return ""
         }
         
-        let totalPlaysGame = "Количество сыгранных квизов: \(statisticService.gamesCount)"
-        let currentResultGame = "Ваш результат: \(correctAnswer)\\\(questionsAmount)"
-        let bestGameRecord = "Рекорд: \(bestGame.correct)\\\(bestGame.total)" + " (\(bestGame.date.dateTimeString))"
-        let averageAccuracy = "Средняя точность: \(String(format: "%.2f", statisticService.totalAccuracy))%"
-        
-        let resultMessage = [currentResultGame, totalPlaysGame, bestGameRecord, averageAccuracy].joined(separator: "\n")
+        let resultMessage =
+        """
+            Ваш результат: \(correctAnswer)\\\(questionsAmount)
+            Количество сыгранных квизов: \(statisticService.gamesCount)
+            Рекорд: \(bestGame.correct)\\\(bestGame.total) (\(bestGame.date.dateTimeString))
+            Средняя точность: \(String(format: "%.2f", statisticService.totalAccuracy))%
+        """
         
         return resultMessage
     }

@@ -12,10 +12,18 @@ final class AlertPresenter: AlertPresenterProtocol {
     // MARK: - Public Methods
     func showAlert(alertModel: AlertModel) {
         
-        let alertController = UIAlertController(title: alertModel.title, message: alertModel.message, preferredStyle: .alert)
-        let alertAction = UIAlertAction(title: alertModel.buttonText, style: .default) { _ in
+        let alertController = UIAlertController(
+            title: alertModel.title,
+            message: alertModel.message,
+            preferredStyle: .alert)
+        
+        let alertAction = UIAlertAction(
+            title: alertModel.buttonText,
+            style: .default
+        ) { _ in
             alertModel.completion()
         }
+        
         alertController.addAction(alertAction)
         viewController?.present(alertController, animated: true)
     }
