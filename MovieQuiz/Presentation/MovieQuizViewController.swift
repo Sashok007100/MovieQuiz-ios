@@ -47,7 +47,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     }
     
     func didLoadDataFromServer() {
-        hideLoadingIndicator()
+        activityIndicator.isHidden = true
         questionFactory?.requestNextQuestion()
     }
     
