@@ -14,8 +14,6 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     // MARK: - Private Properties
     private var correctAnswer = 0
     
-    private var currentQuestion: QuizQuestion?
-    
     private let presenter = MovieQuizPresenter()
     private var questionFactory: QuestionFactoryProtocol?
     private var alertPresenter: AlertPresenterProtocol?
@@ -37,13 +35,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     // MARK: - QuestionFactoryDelegate
     func didReceiveNextQuestion(question: QuizQuestion?) {
-        guard let question = question else { return }
-        
-        currentQuestion = question
-        let viewModel = presenter.convert(model: question)
-        DispatchQueue.main.async { [weak self] in
-            self?.show(quiz: viewModel)
-        }
+        presenter.didReceiveNextQuestion(question: question)
     }
     
     func didLoadDataFromServer() {
@@ -57,22 +49,14 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     // MARK: - IB Actions
     @IBAction private func yesButtonClicked(_ sender: Any) {
-        presenter.currentQuestion = currentQuestion
         presenter.yesButtonClicked()
     }
     
     @IBAction private func noButtonClicked(_ sender: Any) {
-        presenter.currentQuestion = currentQuestion
         presenter.noButtonClicked()
     }
     
     // MARK: - Private Methods
-    
-    private func show(quiz step: QuizStepViewModel) {
-        imageView.image = step.image
-        textLabel.text = step.question
-        counterLabel.text = step.questionNumber
-    }
     
     func showAnswerResult(isCorrect: Bool) {
         imageView.layer.masksToBounds = true
@@ -93,7 +77,10 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
             guard let self = self else { return }
             
-            self.showNextQuestionOrResult()
+            self.presenter.correctAnswer = self.correctAnswer
+            self.presenter.questionFactory = self.questionFactory
+            self.presenter.showNextQuestionOrResult()
+            
             self.imageView.layer.borderWidth = 0
             self.noButton.isEnabled = true
             self.yesButton.isEnabled = true
@@ -114,25 +101,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         }
     }
     
-    private func show(quiz result: QuizResultsViewModel) {
-        statisticService?.store(correct: correctAnswer, total: presenter.questionsAmount)
-        
-        let alertModel = AlertModel(
-            title: result.title,
-            message: result.text,
-            buttonText: result.buttonText,
-            completion:
-                { [weak self] in
-                    guard let self = self else { return }
-                    self.presenter.resetQuestionIndex()
-                    self.correctAnswer = 0
-                    self.questionFactory?.requestNextQuestion()
-                })
-        
-        alertPresenter?.showAlert(alertModel: alertModel)
-    }
-    
-    private func makeResultMessage() -> String {
+    func makeResultMessage() -> String {
         guard let statisticService = statisticService, let bestGame = statisticService.bestGame else {
             assertionFailure("error message")
             return ""
@@ -171,6 +140,31 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
             self.correctAnswer = 0
             self.questionFactory?.requestNextQuestion()
         }
+        
+        alertPresenter?.showAlert(alertModel: alertModel)
+    }
+    
+    // MARK: - Public Methods
+    func show(quiz step: QuizStepViewModel) {
+        imageView.image = step.image
+        textLabel.text = step.question
+        counterLabel.text = step.questionNumber
+    }
+    
+    func show(quiz result: QuizResultsViewModel) {
+        statisticService?.store(correct: correctAnswer, total: presenter.questionsAmount)
+        
+        let alertModel = AlertModel(
+            title: result.title,
+            message: result.text,
+            buttonText: result.buttonText,
+            completion:
+                { [weak self] in
+                    guard let self = self else { return }
+                    self.presenter.resetQuestionIndex()
+                    self.correctAnswer = 0
+                    self.questionFactory?.requestNextQuestion()
+                })
         
         alertPresenter?.showAlert(alertModel: alertModel)
     }
