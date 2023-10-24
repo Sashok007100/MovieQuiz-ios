@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		891EBC082AE7075D004A20BF /* MovieQuizPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891EBC072AE7075D004A20BF /* MovieQuizPresenterTests.swift */; };
 		892D9FFE2AB74D0F009690AC /* QuestionFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 892D9FFD2AB74D0F009690AC /* QuestionFactory.swift */; };
 		89530CFF2AB8E08E00510BE6 /* QuestionFactoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89530CFE2AB8E08E00510BE6 /* QuestionFactoryProtocol.swift */; };
 		89620BE92ABE2EC60036089E /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89620BE82ABE2EC60036089E /* AlertModel.swift */; };
@@ -57,6 +58,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		891EBC072AE7075D004A20BF /* MovieQuizPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieQuizPresenterTests.swift; sourceTree = "<group>"; };
 		892D9FFD2AB74D0F009690AC /* QuestionFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionFactory.swift; sourceTree = "<group>"; };
 		89530CFE2AB8E08E00510BE6 /* QuestionFactoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionFactoryProtocol.swift; sourceTree = "<group>"; };
 		89620BE82ABE2EC60036089E /* AlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 			children = (
 				8982FBDD2AD9D7150060DDEC /* ArrayTests.swift */,
 				8982FBDF2AD9DA1D0060DDEC /* MoviesLoaderTests.swift */,
+				891EBC072AE7075D004A20BF /* MovieQuizPresenterTests.swift */,
 			);
 			path = MovieQuizTests;
 			sourceTree = "<group>";
@@ -373,6 +376,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8982FBDE2AD9D7150060DDEC /* ArrayTests.swift in Sources */,
+				891EBC082AE7075D004A20BF /* MovieQuizPresenterTests.swift in Sources */,
 				8982FBE02AD9DA1D0060DDEC /* MoviesLoaderTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -51,6 +51,28 @@
                ReferencedContainer = "container:MovieQuiz.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "891EBBF02AE70567004A20BF"
+               BuildableName = "MovieQuizPresenterTests.xctest"
+               BlueprintName = "MovieQuizPresenterTests"
+               ReferencedContainer = "container:MovieQuiz.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "891EBBFD2AE705BE004A20BF"
+               BuildableName = "MovieQuizTestsPresenter.xctest"
+               BlueprintName = "MovieQuizTestsPresenter"
+               ReferencedContainer = "container:MovieQuiz.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

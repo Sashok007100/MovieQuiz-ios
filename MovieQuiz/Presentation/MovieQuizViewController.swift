@@ -1,19 +1,18 @@
 import UIKit
 
-final class MovieQuizViewController: UIViewController {
+final class MovieQuizViewController: UIViewController, MovieQuizViewControllerProtocol {
     
     // MARK: - IB Outlets
-    @IBOutlet weak private var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak private var imageView: UIImageView!
-    @IBOutlet weak private var textLabel: UILabel!
-    @IBOutlet weak private var counterLabel: UILabel!
-    @IBOutlet weak var noButton: UIButton!
-    @IBOutlet weak var yesButton: UIButton!
+    @IBOutlet private var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet private var imageView: UIImageView!
+    @IBOutlet private var textLabel: UILabel!
+    @IBOutlet private var counterLabel: UILabel!
+    @IBOutlet private var noButton: UIButton!
+    @IBOutlet private var yesButton: UIButton!
     
     // MARK: - Private Properties
     private var presenter: MovieQuizPresenter!
     private var alertPresenter: AlertPresenterProtocol?
-    private var statisticService: StatisticService?
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -22,7 +21,6 @@ final class MovieQuizViewController: UIViewController {
         showLoadingIndicator()
         
         presenter = MovieQuizPresenter(viewController: self)
-        statisticService = StatisticServiceImplementation()
         alertPresenter = AlertPresenter(delegate: self)
     }
     
