@@ -1,7 +1,7 @@
 import XCTest
 
 final class MovieQuizUITests: XCTestCase {
-
+    
     var app: XCUIApplication!
     
     override func setUpWithError() throws {
@@ -12,7 +12,7 @@ final class MovieQuizUITests: XCTestCase {
         
         continueAfterFailure = false
     }
-
+    
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         

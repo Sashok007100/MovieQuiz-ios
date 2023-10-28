@@ -40,6 +40,7 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     
     func didFailToLoadData(with error: Error) {
         let message = error.localizedDescription
+        viewController?.hideLoadingIndicator()
         viewController?.showNetworkError(message: message)
     }
     
@@ -54,32 +55,18 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     }
     
     // MARK: - Public Methods
-    func isLastQuestion() -> Bool {
-        currentQuestionIndex == questionsAmount - 1
-    }
-    
-    func didAnswer(isCorrestAnswer: Bool) {
-        if isCorrestAnswer == true {
-            correctAnswer += 1
-        }
-    }
-    
-    func restartGame() {
-        currentQuestionIndex = 0
-        correctAnswer = 0
-        questionFactory?.requestNextQuestion()
-    }
-    
-    func switchToNextQuestion() {
-        currentQuestionIndex += 1
-    }
-    
     func convert(model: QuizQuestion) -> QuizStepViewModel {
         QuizStepViewModel(
             image: UIImage(data: model.image) ?? UIImage(),
             question: model.text,
             questionNumber: "\(currentQuestionIndex + 1)/\(questionsAmount)"
         )
+    }
+    
+    func restartGame() {
+        currentQuestionIndex = 0
+        correctAnswer = 0
+        questionFactory?.requestNextQuestion()
     }
     
     func yesButtonClicked() {
@@ -110,6 +97,20 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     }
     
     // MARK: - Private Methods
+    private func isLastQuestion() -> Bool {
+        currentQuestionIndex == questionsAmount - 1
+    }
+    
+    private func didAnswer(isCorrestAnswer: Bool) {
+        if isCorrestAnswer == true {
+            correctAnswer += 1
+        }
+    }
+    
+    private func switchToNextQuestion() {
+        currentQuestionIndex += 1
+    }
+    
     private func didAnswer(isYes: Bool) {
         guard let currentQuestion = currentQuestion else { return }
         
@@ -131,7 +132,7 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     }
     
     private func proceedToNextQuestionOrResults() {
-        if self.isLastQuestion() {
+        if isLastQuestion() {
             let text = "Вы ответили на \(correctAnswer) из 10, попробуйте ещё раз!"
             
             let viewModel = QuizResultsViewModel(
@@ -141,7 +142,7 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
             
             viewController?.show(quiz: viewModel)
         } else {
-            self.switchToNextQuestion()
+            switchToNextQuestion()
             questionFactory?.requestNextQuestion()
         }
     }

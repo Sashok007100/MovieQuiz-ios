@@ -24,6 +24,10 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
         alertPresenter = AlertPresenter(delegate: self)
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .default
+    }
+    
     // MARK: - IB Actions
     @IBAction private func yesButtonClicked(_ sender: Any) {
         presenter.yesButtonClicked()
@@ -54,23 +58,21 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
             self.presenter.restartGame()
         }
         
+        alert.view.accessibilityIdentifier = "Game results"
+        
         alert.addAction(action)
         self.present(alert, animated: true, completion: nil)
     }
     
     func showLoadingIndicator() {
-        activityIndicator.isHidden = false
         activityIndicator.startAnimating()
     }
     
     func hideLoadingIndicator() {
-        activityIndicator.isHidden = true
         activityIndicator.stopAnimating()
     }
     
     func showNetworkError(message: String) {
-        hideLoadingIndicator()
-        
         let alertModel = AlertModel(title: "Ошибка",
                                     message: message,
                                     buttonText: "Попробовать ещё раз") { [weak self] in
